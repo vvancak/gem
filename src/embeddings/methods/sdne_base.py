@@ -64,26 +64,23 @@ class SDNE_Base(eb.EmbeddingBase):
 
     def _train_batch(self, batch) -> float:
         x1_batch, x2_batch, w_batch = batch
+        x1_batch, x2_batch, w_batch = np.array(x1_batch), np.array(x2_batch), np.array(w_batch)
+
+        x1_batch = self._adj_matrix[x1_batch].toarray()
+        x2_batch = self._adj_matrix[x2_batch].toarray()
+
         loss = self._network.train(x1_batch, x2_batch, w_batch)
         return loss
 
     def _empty_batch(self) -> (np.array, np.array, np.array):
-        x1_batch = np.empty(shape=(0, self._graph.number_of_nodes()), dtype=np.float32)
-        x2_batch = np.empty(shape=(0, self._graph.number_of_nodes()), dtype=np.float32)
-        w_batch = np.array([], dtype=np.float32)
-        return (x1_batch, x2_batch, w_batch)
+        return ([], [], [])
 
     def _add_to_batch(self, batch, x1, x2, w) -> (np.array, np.array, np.array):
-        x1_batch, x2_batch, w_batch = batch
-
-        x1 = self._adj_matrix[x1].toarray()
-        x2 = self._adj_matrix[x2].toarray()
-
-        x1_batch = np.append(x1_batch, x1, axis=0)
-        x2_batch = np.append(x2_batch, x2, axis=0)
-        w_batch = np.append(w_batch, w)
-
-        return (x1_batch, x2_batch, w_batch)
+        x1b, x2b, wb = batch
+        x1b.append(x1)
+        x2b.append(x2)
+        wb.append(w)
+        return batch
 
     def _get_embedding(self) -> None:
         embeddings = np.empty(shape=(0, self._dimension))
