@@ -1,0 +1,20 @@
+{
+  "UW-bugzilla": {
+    "parser": "edgelist",
+    "path": "../../../ds/UW-bugzilla.csv",
+    "parameters": {
+      "separator": ",",
+      "directed": false,
+      "weighted": true
+    }
+  },
+  "UW-bank_clients": {
+    "parser": "edgelist",
+    "path": "../../../ds/UW-bank_clients.csv",
+    "parameters": {
+      "separator": ",",
+      "directed": false,
+      "weighted": true
+    }
+  }
+}

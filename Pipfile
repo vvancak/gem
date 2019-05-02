@@ -1,0 +1,17 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+tensorflow= "==1.13.1"
+numpy= "==1.16.3"
+scipy= "==1.2.1"
+networkx= "==2.3"
+scikit-learn= "==0.20.3"
+matplotlib= "==3.0.3"
+
+[requires]
+python_version = "3.6"

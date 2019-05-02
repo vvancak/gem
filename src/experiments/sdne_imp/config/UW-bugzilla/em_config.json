@@ -1,0 +1,28 @@
+{
+  "SDNE": {
+    "iterations": 30,
+    "learning_rate": 0.001,
+    "alpha": 1.0,
+    "beta": 10.0,
+    "gamma": 0.001,
+    "layers": [
+      50
+    ],
+    "dropouts": [
+      0.3
+    ],
+    "batch_size": 32
+  },
+  "SDNE_DBN": {
+    "rbm_iterations": 5,
+    "sgd_iterations": 20,
+    "learning_rate": 0.01,
+    "alpha": 1.0,
+    "beta": 10.0,
+    "gamma": 0.001,
+    "layers": [
+      50
+    ],
+    "batch_size": 32
+  }
+}

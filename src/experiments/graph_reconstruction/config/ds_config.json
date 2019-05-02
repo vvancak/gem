@@ -1,0 +1,19 @@
+{
+  "UW-bugzilla": {
+    "parser": "edgelist",
+    "path": "../../../ds/UW-bugzilla.csv",
+    "parameters": {
+      "separator": ",",
+      "directed": false,
+      "weighted": true
+    }
+  },
+  "UW-windsurfers": {
+    "parser": "edgelist",
+    "path": "../../../ds/UW-windsurfers",
+    "parameters": {
+      "directed": false,
+      "weighted": true
+    }
+  }
+}

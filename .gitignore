@@ -1,0 +1,16 @@
+# Environment-Generated files
+*.lock
+.idea/*
+*__pycache__*
+
+# Data Sets
+ds/*
+
+# Output Files
+output/*
+
+# RBM repository
+src/tfrbm/
+
+# Experiments outputs
+src/experiments/*/output/

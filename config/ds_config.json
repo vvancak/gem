@@ -1,0 +1,47 @@
+{
+  "SAMPLE": {
+    "parser": "edgelist",
+    "path": "[OPT] File path. If not specified, will use ../ds/[dataset_name]",
+    "parameters": {
+      "for edgelist": "[OPT] separator | [OPT] comment | directed | weighted"
+    }
+  },
+  "UW-bugzilla": {
+    "parser": "edgelist",
+    "path": "../ds/UW-bugzilla.csv",
+    "parameters": {
+      "separator": ",",
+      "directed": false,
+      "weighted": true,
+      "labels": [
+        "HR Team Labels"
+      ]
+    }
+  },
+  "UW-bank_clients": {
+    "parser": "edgelist",
+    "path": "../ds/UW-bank_clients.csv",
+    "parameters": {
+      "directed": false,
+      "weighted": true
+    }
+  },
+  "UW-windsurfers": {
+    "parser": "edgelist",
+    "parameters": {
+      "directed": false,
+      "weighted": true
+    }
+  },
+  "UW-zachary_karate": {
+    "parser": "edgelist",
+    "parameters": {
+      "directed": false,
+      "weighted": true,
+      "labels": [
+        "0",
+        "33"
+      ]
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "visualization": {
+    "labels": true
+  },
+  "graph_reconstruction": {
+    "max_k": 6
+  },
+  "link_prediction": {
+    "max_k": 6
+  }
+}

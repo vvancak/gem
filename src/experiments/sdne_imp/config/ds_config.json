@@ -1,0 +1,11 @@
+{
+  "UW-bugzilla": {
+    "parser": "edgelist",
+    "path": "../../../ds/UW-bugzilla.csv",
+    "parameters": {
+      "separator": ",",
+      "directed": false,
+      "weighted": true
+    }
+  }
+}

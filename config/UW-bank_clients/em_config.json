@@ -1,0 +1,44 @@
+{
+  "random": {},
+  "laplacian_eigenmaps": {},
+  "deep_walk": {
+    "weighted_var": true,
+    "walk_length": 5,
+    "walks_per_node": 150,
+    "learning_rate": 0.8,
+    "negative_samples": 5,
+    "batch_size": 256
+  },
+  "node2vec": {
+    "p": 1.2,
+    "q": 0.8,
+    "walk_length": 5,
+    "walks_per_node": 150,
+    "learning_rate": 0.8,
+    "negative_samples": 5,
+    "batch_size": 256
+  },
+  "LINE": {
+    "epochs": 450,
+    "batch_size": 512,
+    "first_learning_rate": 0.01,
+    "second_learning_rate": 0.01,
+    "negative_samples": 5
+  },
+  "SDNE": {
+    "iterations": 30,
+    "learning_rate": 0.001,
+    "alpha": 1.0,
+    "beta": 10.0,
+    "gamma": 0.001,
+    "layers": [
+      4096,
+      512
+    ],
+    "dropouts": [
+      0.3,
+      0.2
+    ],
+    "batch_size": 256
+  }
+}

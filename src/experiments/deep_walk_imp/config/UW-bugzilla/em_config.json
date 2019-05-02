@@ -1,0 +1,9 @@
+{
+  "deep_walk": {
+    "walk_length": 3,
+    "walks_per_node": 100,
+    "learning_rate": 0.8,
+    "negative_samples": 5,
+    "batch_size": 32
+  }
+}

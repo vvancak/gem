@@ -1,0 +1,26 @@
+{
+  "UW-bugzilla": {
+    "parser": "edgelist",
+    "path": "../../../ds/UW-bugzilla.csv",
+    "parameters": {
+      "separator": ",",
+      "directed": false,
+      "weighted": true,
+      "labels": [
+        "HR Team Logins here"
+      ]
+    }
+  },
+  "UW-zachary_karate": {
+    "parser": "edgelist",
+    "path": "../../../ds/UW-zachary_karate",
+    "parameters": {
+      "directed": false,
+      "weighted": true,
+      "labels": [
+        "0",
+        "33"
+      ]
+    }
+  }
+}
