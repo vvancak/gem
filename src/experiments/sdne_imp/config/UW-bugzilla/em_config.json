@@ -14,7 +14,7 @@
     "batch_size": 32
   },
   "SDNE_DBN": {
-    "rbm_iterations": 5,
+    "rbm_iterations": 2,
     "sgd_iterations": 20,
     "learning_rate": 0.01,
     "alpha": 1.0,

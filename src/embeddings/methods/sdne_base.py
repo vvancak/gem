@@ -62,13 +62,17 @@ class SDNE_Base(eb.EmbeddingBase):
 
         print(f"#{ep}: Loss: 1st {l1:.2f} | 2nd {l2:.2f} | reg {lr:.2f}")
 
-    def _train_batch(self, batch) -> float:
+    def _get_batch_rows(self, batch):
         x1_batch, x2_batch, w_batch = batch
         x1_batch, x2_batch, w_batch = np.array(x1_batch), np.array(x2_batch), np.array(w_batch)
 
         x1_batch = self._adj_matrix[x1_batch].toarray()
         x2_batch = self._adj_matrix[x2_batch].toarray()
 
+        return x1_batch, x2_batch, w_batch
+
+    def _train_batch(self, batch) -> float:
+        x1_batch, x2_batch, w_batch = self._get_batch_rows(batch)
         loss = self._network.train(x1_batch, x2_batch, w_batch)
         return loss
 

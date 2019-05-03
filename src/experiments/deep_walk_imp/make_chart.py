@@ -12,10 +12,17 @@ OUTDIR = "./output"
 MARKERS = [".", "v", "*", "^", "X", "D"]
 
 # <<< CHARTS CONFIGURATIONS >>>
+'''
 XLABEL = "Graph Embedding Dimension"
 YLABEL = "Mean Average Precision (MAP) [%]"
 TITLE = f"Deep Walk - Adding Weights - {DATASET}"
 METRIC = "MAP"
+'''
+
+XLABEL = "Graph Embedding Dimension"
+YLABEL = "Training Time [s]"
+TITLE = f"Deep Walk - Adding Weights - {DATASET}"
+METRIC = "time"
 
 
 def get_result(file):

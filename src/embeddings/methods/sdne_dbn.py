@@ -82,8 +82,13 @@ class SDNE_DBN(sdb.SDNE_Base):
             for ep in range(self._rbm_iterations):
                 ep_loss = 0.0
                 for batch in self._edge_batches():
-                    batch_transformed = self._network.get_representation(batch[0], i)
+                    x1_batch, x2_batch, w_batch = self._get_batch_rows(batch)
 
+                    batch_transformed = self._network.get_representation(x1_batch, i)
+                    loss = self._network.pre_train(batch_transformed, i)
+                    ep_loss += loss
+
+                    batch_transformed = self._network.get_representation(x2_batch, i)
                     loss = self._network.pre_train(batch_transformed, i)
                     ep_loss += loss
 
