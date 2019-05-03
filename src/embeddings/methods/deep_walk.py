@@ -77,8 +77,11 @@ class DeepWalk(eb.EmbeddingBase):
 
         if sampling is None:
             return None
-        else:
+
+        if self._weighted_var:
             return sampling.sample(1)[0]
+        else:
+            return sampling.random_sample()
 
     def _sample_walk(self, node) -> np.array:
         walk = [node]

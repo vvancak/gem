@@ -2,7 +2,7 @@ import typing as t
 import numpy as np
 
 
-# Algorithm: Vose's Alias Method
+# Algorithm: Alias Sampling Method
 # helpful tutorial at http://www.keithschwarz.com/darts-dice-coins/
 
 class AliasSampling:
@@ -18,6 +18,11 @@ class AliasSampling:
         replace_idx = y > self._prob_table[x]
         x[replace_idx] = self._alias_table[x][replace_idx]
         return self._classes[x]
+
+    def random_sample(self):
+        l = len(self._classes)
+        r = np.random.randint(l)
+        return self._classes[r]
 
     # endregion
 
