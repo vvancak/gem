@@ -10,7 +10,7 @@ import os
 BUGZILLA_CONFIG = {
     "DATASET": "UW-bugzilla",
     "NORMALIZATION": None,
-    "DIMENSIONS": 5,
+    "DIMENSION": 5,
     "SEED": 42
 }
 

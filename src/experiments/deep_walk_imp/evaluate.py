@@ -19,7 +19,7 @@ SEEDS = [42, 24, 31, 9, 8, 96, 21, 19, 6, 23, 2, 10, 22, 14, 5, 84, 34, 17, 51, 
 
 # === EVALUATION ===
 def process_results(results: t.List) -> t.Dict:
-    RES_FIELDS = ["MAP", "MSE_OBS"]
+    RES_FIELDS = ["MAP", "MSE_OBS", "time"]
 
     # Initialize to 0
     avg_res = {}
@@ -48,11 +48,11 @@ def evaluate_config(graphs, ev_config, em_config):
             # Learn embedding
             runner = rs.RunStages(s, DATASET, "deep_walk", "graph_reconstruction")
             runner.set_graphs(*graphs)
-            runner.learn_embedding(em_config, dim)
+            embedding, time = runner.learn_embedding(em_config, dim)
 
             # Evaluate embedding
             result = runner.evaluate_embedding(ev_config)
-            dim_results.append(result)
+            dim_results.append({**result, "time": time})
 
         method_results.append({"dimension": dim, "results": process_results(dim_results)})
     return method_results

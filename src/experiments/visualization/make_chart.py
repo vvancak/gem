@@ -37,7 +37,7 @@ if __name__ == "__main__":
     fig = plt.figure(figsize=(NCOLS * 6, NROWS * 4.5), dpi=200)
     plt.subplots_adjust(wspace=0, hspace=0.2)
     for i, (name, plot) in enumerate(plots):
-        a = fig.add_subplot(NROWS, NCOLS, i+1)
+        a = fig.add_subplot(NROWS, NCOLS, i + 1)
         imgplot = plt.imshow(plot)
         plt.axis('off')
         a.set_title(name)
