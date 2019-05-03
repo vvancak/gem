@@ -35,7 +35,7 @@ def process_results(results: t.List) -> t.Dict:
 
     # Average
     for r in RES_FIELDS:
-        avg_res[r] = round(avg_res[r] / REPETITIONS, 3)
+        avg_res[r] = round(avg_res[r] / len(SEEDS), 3)
 
     return avg_res
 
