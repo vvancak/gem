@@ -24,7 +24,7 @@ BANK_CONFIG = {
     "NORMALIZATION": None,
     "HIDE_PERC": 20,
     "DIMENSION": 128,
-    "SEEDS": [42],
+    "SEEDS": [21],
     "METHODS": ["deep_walk"]  # , "node2vec", "LINE", "SDNE"]
 }
 

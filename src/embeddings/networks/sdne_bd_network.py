@@ -15,17 +15,17 @@ class SdneBatchNormDropoutNetwork(sdnb.SdneNetwork):
         super().__init__(seed)
         self._seed = seed
         self._embed_dim = embed_dim
-        self._layers = layers
-        self._dropouts = dropouts
+        self._layers = np.array(layers)
+        self._dropouts = np.array(dropouts)
         self._num_nodes = num_nodes
         self._gamma = gamma
 
     # region === OVERRIDES ===
     def _get_encoder(self) -> t.Callable[[tf.Tensor, bool], tf.Tensor]:
-        return self._get_layers(self._embed_dim, tf.nn.tanh, self._dropouts, self._layers, self._gamma)
+        return self._get_layers(self._embed_dim, None, self._dropouts, self._layers, self._gamma)
 
     def _get_decoder(self) -> t.Callable[[tf.Tensor, bool], tf.Tensor]:
-        return self._get_layers(self._num_nodes, tf.nn.sigmoid, reversed(self._dropouts), reversed(self._layers), self._gamma)
+        return self._get_layers(self._num_nodes, None, np.zeros_like(self._layers), reversed(self._layers), self._gamma)
 
     def _get_reg_loss(self) -> t.Union[tf.Tensor, np.array]:
         return tf.reduce_sum(tf.get_collection(tf.GraphKeys.REGULARIZATION_LOSSES))
@@ -50,7 +50,10 @@ class SdneBatchNormDropoutNetwork(sdnb.SdneNetwork):
             dense = tf.layers.Dense(dim, activation=tf.nn.relu, kernel_initializer=kinit, kernel_regularizer=kreg)
             batchnorm = tf.layers.BatchNormalization()
             activation = tf.keras.layers.ReLU()
-            dropout = tf.keras.layers.Dropout(rate=drp)
+            if drp > 0:
+                dropout = tf.keras.layers.Dropout(rate=drp)
+            else:
+                dropout = lambda x, training: x
 
             # Append to model
             net_layers.append((dense, batchnorm, activation, dropout))
