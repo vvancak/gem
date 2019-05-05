@@ -1,5 +1,4 @@
 import sys
-
 sys.path.insert(0, "../../")
 
 import run.configurations as cfg
@@ -29,7 +28,7 @@ BANK_CONFIG = {
 }
 
 # === SELECT WHICH DATASET ===
-USE_CONFIG = BANK_CONFIG
+USE_CONFIG = BUGZILLA_CONFIG
 
 
 # === EVALUATION ===
