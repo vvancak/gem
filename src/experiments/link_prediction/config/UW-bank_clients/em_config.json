@@ -26,16 +26,18 @@
     "negative_samples": 5
   },
   "SDNE": {
-    "iterations": 10,
-    "learning_rate": 0.001,
-    "alpha": 1.0,
+    "iterations": 20,
+    "learning_rate": 0.00001,
+    "alpha": 0.001,
     "beta": 10.0,
-    "gamma": 0.001,
+    "gamma": 0.00000001,
     "layers": [
-      1024
+      2048,
+      512
     ],
     "dropouts": [
-      0.2
+      0.2,
+      0
     ],
     "batch_size": 64
   }

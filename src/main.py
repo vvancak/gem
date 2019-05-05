@@ -18,15 +18,15 @@ def parse_arguments():
     parser.add_argument("--config", default="../config", type=str, help="Configurations directory")
 
     # Main configurations
-    parser.add_argument("--dataset", default="UW-zachary_karate", type=str, help="DataSet (from ds_config.json)")
+    parser.add_argument("--dataset", default="UW-bugzilla", type=str, help="DataSet (from ds_config.json)")
     parser.add_argument("--embed_method", default="SDNE", type=str, help="Graph Embedding Method (from em_config.json)")
-    parser.add_argument("--eval_method", default="visualization", type=str, help="Evaluation Method (from ev_config.json)")
+    parser.add_argument("--eval_method", default="link_prediction", type=str, help="Evaluation Method (from ev_config.json)")
 
     # Specific configurations
-    parser.add_argument("--embed_dim", default=2, type=int, help="Dimension of the created embedding")
+    parser.add_argument("--embed_dim", default=4, type=int, help="Dimension of the created embedding")
     parser.add_argument("--force_learn", default=True, type=bool, help="Force the learning even if [embed_file] exists")
-    parser.add_argument("--init_norm", default="log_global_norm", type=str, help="Graph Normalization from init_norms.py (None if not required)")
-    parser.add_argument("--hide_edges", default=None, type=int, help="Hide x% of the graph's edges (None if not required)")
+    parser.add_argument("--init_norm", default=None, type=str, help="Graph Normalization from init_norms.py (None if not required)")
+    parser.add_argument("--hide_edges", default=20, type=int, help="Hide x% of the graph's edges (None if not required)")
     parser.add_argument("--embed_file", default=None, type=str, help="Learned embedding filename (None if not required)")
 
     return parser.parse_args()

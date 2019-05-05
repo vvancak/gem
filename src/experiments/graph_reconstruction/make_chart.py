@@ -12,7 +12,7 @@ OUTDIR = "./output"
 MARKERS = ["v", "*", "^", "X", "D"]
 
 # <<< CHARTS CONFIGURATIONS >>>
-'''
+
 XLABEL = "Graph Embedding Dimension"
 YLABEL = "Mean Average Precision (MAP) [%]"
 TITLE = f"Graph Reconstruction - {DATASET}"
@@ -23,7 +23,7 @@ XLABEL = "Graph Embedding Dimension"
 YLABEL = "Mean Squared Error (MSE)"
 TITLE = f"Graph Reconstruction - {DATASET}"
 METRIC = "MSE_OBS"
-
+'''
 
 def get_result(file):
     # Remove .txt to get method name

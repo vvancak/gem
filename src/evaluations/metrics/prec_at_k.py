@@ -4,10 +4,10 @@ import networkx as nx
 import numpy as np
 
 
-def precision_at_k(graph: nx.Graph, learning_graph: nx.Graph, embedding: eb.EmbeddingBase, max_k: int) -> (np.array, np.array):
+def precision_at_k(graph: nx.Graph, learning_graph: nx.Graph, embedding: eb.EmbeddingBase, max_k: int, batch_size: int) -> (np.array, np.array):
     precisions = []
 
-    top_k_edges = dr.get_best_new_edges(graph, learning_graph, embedding, max_k)
+    top_k_edges = dr.get_best_new_edges(graph, learning_graph, embedding, max_k, batch_size)
     correct_edges = 0
 
     for k, (w, (u, v)) in enumerate(top_k_edges):

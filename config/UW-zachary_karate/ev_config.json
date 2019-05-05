@@ -6,6 +6,7 @@
     "max_k": 6
   },
   "link_prediction": {
-    "max_k": 6
+    "max_k": 6,
+    "batch_size": 32
   }
 }
