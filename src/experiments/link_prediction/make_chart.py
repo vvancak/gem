@@ -7,10 +7,23 @@ import os
 # to generate required chart
 
 # <<< CONSTANTS >>>
-DATASET = "Bugzilla"
-MIN_K = 5
 OUTDIR = "./output"
 MARKERS = ["v", "*", "^", "X", "D"]
+
+# <<< DS CONFIG >>>
+'''
+DATASET = "Bugzilla"
+MIN_K = 10
+MAX_K = 20
+EACH = 1
+SKIP = -1
+
+'''
+DATASET = "Bank_Proximities"
+MIN_K = 20
+MAX_K = 80
+EACH = 4
+SKIP = 1
 
 # <<< CHARTS  CONFIGURATIONS>>>
 '''
@@ -26,7 +39,6 @@ TITLE = f"Link Prediction - {DATASET}"
 METRIC = "MSE_OBS"
 
 
-
 def get_result(file):
     # Remove .txt to get method name
     method_name = file[:-4]
@@ -38,17 +50,30 @@ def get_result(file):
 
 def draw_results(marker, name, result):
     res = result[METRIC]
-    rng = range(len(res))
 
-    plt.plot(rng[MIN_K:], res[MIN_K:], linewidth=2, marker=marker, label=name)
+    res = [sum(res[i:i + EACH]) / EACH for i in range(MIN_K, MAX_K, EACH)]
+    rng = range(MIN_K, MAX_K, EACH)
+
+    if name == "LINE":
+        plt.plot()
+
+    plt.plot(rng, res, linewidth=2, marker=marker, label=name)
 
 
 if __name__ == "__main__":
     files = os.listdir(OUTDIR)
 
-    for i, f in enumerate(files):
+    i = 0
+    for f in files:
         r = get_result(f)
+
+        # Hack to remain consistent without LE line
+        if i == SKIP:
+            plt.plot([], [])
+            i = i + 1
+
         draw_results(MARKERS[i], *r)
+        i = i + 1
 
     plt.title(TITLE)
     plt.xlabel(XLABEL)
