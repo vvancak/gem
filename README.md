@@ -28,6 +28,8 @@ chmod u+x install.sh
 
 * Due to the complexity of CUDA installation, the GPU support is available only within Docker.
 
+* The following scripts should be executed from the project root.
+
 -----------------------
 Execute the following steps in BASH / GIT BASH / WSL (untested):
 
@@ -66,7 +68,7 @@ cd ..
 ##### 2. Run the project environment
 ```Shell
 docker run --rm -it \
-    -v ~/gem:/usr/local/gem \
+    -v $(pwd):/usr/local/gem \
     -u $(id -u):$(id -g) \
     -w /usr/local/gem \
     gem-docker-cpu bash
@@ -95,7 +97,7 @@ cd ..
 One-GPU Server:
 ```Shell
 nvidia-docker run --rm -it \
-    -v ~/gem:/usr/local/gem \
+    -v $(pwd):/usr/local/gem \
     -u $(id -u):$(id -g) \
     -w /usr/local/gem \
     gem-docker-gpu bash
@@ -105,7 +107,7 @@ Multiple-GPU Server:
 ```Shell
 GPU=0 # or replace 0 with an available GPU
 NV_GPU=${GPU} nvidia-docker run --rm -it \
-    -v ~/gem:/usr/local/gem \
+    -v $(pwd):/usr/local/gem \
     -u $(id -u):$(id -g) \
     -w /usr/local/gem \
     gem-docker-gpu bash
