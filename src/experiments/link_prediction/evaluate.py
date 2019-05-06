@@ -1,4 +1,5 @@
 import sys
+
 sys.path.insert(0, "../../")
 
 import run.configurations as cfg
@@ -13,8 +14,8 @@ BUGZILLA_CONFIG = {
     "DATASET": "UW-bugzilla",
     "NORMALIZATION": None,
     "HIDE_PERC": 20,
-    "DIMENSION": 4,
-    "SEEDS": [42, 24, 31, 9, 8, 96, 21, 19, 6, 23, 2, 10, 22, 14, 5, 84, 34, 17, 51, 91],
+    "DIMENSION": 5,
+    "SEEDS": [42, 24, 31, 9, 8, 96, 21, 19, 6, 23],
     "METHODS": ["laplacian_eigenmaps", "deep_walk", "node2vec", "LINE", "SDNE"]
 }
 
