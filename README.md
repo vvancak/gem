@@ -36,7 +36,7 @@ Execute the following steps in BASH / GIT BASH / WSL (untested):
 ### a) Pipenv [CPU]
 ##### 0. Install Requirements:
 * ***python*** v3.6 with ***pip*** - [download here](https://www.python.org/downloads/)
-* ***pipenv*** ```pip install --user pipenv```
+* ***pipenv*** - [install here](https://docs.pipenv.org/en/latest/install/#installing-pipenv)
 
 ##### 1. Install depenencies:
 ```Shell

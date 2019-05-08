@@ -37,7 +37,7 @@ class EmbeddingBase(ABC):
         return self._estimate_weights(src_v, tar_v)
 
     def save_embedding(self, mapper: mp.NodeMapper, output_file: str) -> None:
-        with open(f"{output_file}.txt", "w") as outfile:
+        with open(f"{output_file}.txt", "w+") as outfile:
             for vertex, id in zip(self._embedding, mapper.node_ids_sorted()):
                 outfile.write(f"{id} | ")
                 for yi in vertex:
