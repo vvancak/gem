@@ -22,7 +22,7 @@ fi
 
 # === RBM GIT ===
 echo "[INFO]: Getting RBM GIT repository"
-if [ ! -d "tfrbm" ]; then
+if [ ! -d "src/tfrbm" ]; then
     cd src
     git clone https://github.com/meownoid/tensorfow-rbm.git
 
