@@ -22,6 +22,7 @@
     "parser": "edgelist",
     "path": "../ds/UW-bank_clients.csv",
     "parameters": {
+      "separator": ",",
       "directed": false,
       "weighted": true
     }
