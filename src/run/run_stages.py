@@ -1,4 +1,5 @@
 import evaluations.evaluation_factory as evf
+import reconstruction.model_reconstr as mre
 import embeddings.embedding_factory as emf
 import embeddings.embedding_base as emb
 import normalization.init_norms as inn
@@ -120,3 +121,21 @@ class RunStages:
 
         self._result = result
         return result
+
+    def enlarge_graph(self, add_edges: int, out_path: str) -> None:
+        # TODO: refactor if works
+        num_predicted = int(self._eval_graph.number_of_edges() * (add_edges / 100.0))
+        rec_model = mre.ModelReconstruction(self._eval_graph, self._embedding, 128)
+
+        rec_model.learn()
+        new_edges = rec_model.get_best_new_edges(self._eval_graph, num_predicted)
+
+        rev_mapping = self._mapper.reversed_mapping
+        with open(out_path, "w+") as outfile:
+            for u, v, w in self._eval_graph.edges.data("weight", default=1):
+                outfile.write(f"{rev_mapping[u]},{rev_mapping[v]},{w}\n")
+                outfile.write(f"{rev_mapping[v]},{rev_mapping[u]},{w}\n")
+
+            for w, (u, v) in new_edges:
+                outfile.write(f"{rev_mapping[u]},{rev_mapping[v]},{w:.4f}\n")
+                outfile.write(f"{rev_mapping[v]},{rev_mapping[u]},{w:.4f}\n")

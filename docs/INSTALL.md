@@ -56,9 +56,8 @@ python3 ./main.py #[optional: arguments or -h for help]
 
 ##### 1. Install depenencies:
 ```Shell
-cd ./cpu-docker
-docker build -t gem-docker-cpu .
-cd ..
+cd ./docker
+docker build -f cpu.Dockerfile -t gem-docker-cpu .
 ```
 
 ##### 2. Run the project environment
@@ -84,9 +83,8 @@ python3 ./main.py #[optional: arguments or -h for help]
 
 ##### 1. Install depenencies:
 ```Shell
-cd ./gpu-docker
-docker build -t gem-docker-gpu .
-cd ..
+cd ./docker
+docker build -f gpu.Dockerfile -t gem-docker-gpu .
 ```
 
 ##### 2. Run the project environment

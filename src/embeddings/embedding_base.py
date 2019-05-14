@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import graphs.node_mapper as mp
 import networkx as nx
+import typing as t
 import numpy as np
 
 
@@ -23,13 +24,12 @@ class EmbeddingBase(ABC):
     # endregion
 
     # region === PUBLIC ===
-    @property
-    def get(self) -> np.ndarray:
+    def __getitem__(self, pos: t.Union[int, np.array]) -> np.array:
         if self._embedding is None:
             print("[WARNING]: Embeddings not learned yet, learning...")
             self.learn()
 
-        return self._embedding
+        return self._embedding[pos]
 
     def estimate_weights(self, src_v: np.array, tar_v: np.array = None) -> np.ndarray:
         if tar_v is None:
@@ -37,7 +37,7 @@ class EmbeddingBase(ABC):
         return self._estimate_weights(src_v, tar_v)
 
     def save_embedding(self, mapper: mp.NodeMapper, output_file: str) -> None:
-        with open(f"{output_file}.txt", "w+") as outfile:
+        with open(f"{output_file}", "w+") as outfile:
             for vertex, id in zip(self._embedding, mapper.node_ids_sorted()):
                 outfile.write(f"{id} | ")
                 for yi in vertex:

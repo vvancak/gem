@@ -1,40 +1,98 @@
 import run.configurations as cfg
+import run.print_headers as ph
 import run.run_stages as rs
 import datetime as dt
-import numpy as np
 import argparse
 import os
 
-EMBED_DIR = "embeddings"
-EVAL_DIR = "evaluations"
+TIMESTAMP = dt.datetime.now().strftime("%d-%H-%M")
 
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("--seed", default=42, type=int, help="Random seed")
 
-    # Directories
+    # 1. Directories
     parser.add_argument("--output", default="../output", type=str, help="Output directory")
     parser.add_argument("--config", default="../config", type=str, help="Configurations directory")
 
-    # Main configurations
+    # 2. Dataset
     parser.add_argument("--dataset", default="UW-zachary_karate", type=str, help="DataSet (from ds_config.json)")
-    parser.add_argument("--embed_method", default="deep_walk", type=str,
-                        help="Graph Embedding Method (from em_config.json)")
-    parser.add_argument("--eval_method", default="visualization", type=str,
-                        help="Evaluation Method (from ev_config.json)")
+    parser.add_argument("--init_norm", default=None, type=str, help="Graph Normalization from init_norms.py (None if not required)")
+    parser.add_argument("--hide_edges", default=None, type=int, help="Hide x% of the graph's edges (None if not required)")
 
-    # Specific configurations
+    # 3. Embeddings
+    parser.add_argument("--embed_method", default="deep_walk", type=str, help="Graph Embedding Method (from em_config.json)")
     parser.add_argument("--embed_dim", default=2, type=int, help="Dimension of the created embedding")
-    parser.add_argument("--force_learn", default=True, type=bool, help="Force the learning even if [embed_file] exists")
-    parser.add_argument("--init_norm", default="log_global_norm", type=str,
-                        help="Graph Normalization from init_norms.py (None if not required)")
-    parser.add_argument("--hide_edges", default=None, type=int,
-                        help="Hide x% of the graph's edges (None if not required)")
-    parser.add_argument("--embed_file", default="out_embed", type=str,
-                        help="Learned embedding filename (None if not required)")
+
+    parser.add_argument("--embed_file", default=None, type=str, help="embedding file for learning")
+    parser.add_argument("--embed_dir", default="embeddings", type=str, help="embedding directory within the output directory")
+
+    # 4. Evaluations
+    parser.add_argument("--eval_method", default=None, type=str, help="Evaluation Method (from ev_config.json)")
+    parser.add_argument("--eval_dir", default="evaluations", type=str, help="evaluation directory within the output directory")
+
+    # 5. Enlarge
+    parser.add_argument("--add_edges", default=None, type=int, help="Add x% of the graph's edges (None if not required)")
+    parser.add_argument("--enlarge_dir", default="enlarged", type=str, help="enlarged graph directory within the output directory")
 
     return parser.parse_args()
+
+
+def graphs(runner: rs.RunStages, config: cfg.Configuration, args):
+    print(f" <<< === GRAPHS === >>> ")
+    ds_config = config.ds_config()
+    runner.load_graphs(ds_config, args.init_norm, args.hide_edges)
+
+
+def embeddings(runner: rs.RunStages, config: cfg.Configuration, args):
+    print(f" <<< === EMBEDDING === >>> ")
+    em_config = config.em_config(args.dataset)
+
+    # Ensure we have directories
+    embed_file_path = f"{args.output}/{args.embed_dir}/{args.dataset}"
+    os.makedirs(embed_file_path, exist_ok=True)
+
+    # Check if can load
+    if args.embed_file:
+        embed_file = f"{embed_file_path}/{args.embed_file}"
+        if not os.path.exists(embed_file):
+            print(f"{ph.ERROR} {args.embed_file} does not exist within {embed_file_path}")
+            exit(1)
+        runner.load_embedding(em_config, embed_file_path, args.embed_dim)
+
+    else:
+        # Or learn
+        runner.learn_embedding(em_config, args.embed_dim)
+        # And store
+        embed_file = f"{args.embed_method}#{TIMESTAMP}.txt"
+        runner.store_embedding(f"{embed_file_path}/{embed_file}")
+
+
+def evaluations(runner: rs.RunStages, config: cfg.Configuration, args):
+    print(f" <<< === EVALUATION === >>>")
+    if args.eval_method:
+        ev_config = config.ev_config(args.dataset)
+        eval_file = f"{args.eval_method}#{args.embed_method}#{TIMESTAMP}"  # Not .txt, cause vis is .png
+        eval_dir = f"{args.output}/{args.eval_dir}/{args.dataset}"
+
+        os.makedirs(eval_dir, exist_ok=True)
+        runner.evaluate_embedding(ev_config, f"{eval_dir}/{eval_file}")
+
+    else:
+        print(f"{ph.INFO} No method specified, skipping")
+
+
+def enlarge(runner: rs.RunStages, config: cfg.Configuration, args):
+    print(f" <<< === ENLARGE === >>> ")
+    if args.add_edges:
+        enlarge_file = f"{args.embed_method}#{TIMESTAMP}.csv"
+        enlarge_dir = f"{args.output}/{args.enlarge_dir}/{args.dataset}"
+
+        os.makedirs(enlarge_dir, exist_ok=True)
+        runner.enlarge_graph(args.add_edges, f"{enlarge_dir}/{enlarge_file}")
+    else:
+        print(f"{ph.INFO} Not specified, wont add edges")
 
 
 if __name__ == "__main__":
@@ -44,41 +102,10 @@ if __name__ == "__main__":
     runner = rs.RunStages(args.seed, args.dataset, args.embed_method, args.eval_method)
     config = cfg.Configuration(args.config)
 
-    # Stage configurations
-    ds_config = config.ds_config()
-    em_config = config.em_config(args.dataset)
-    ev_config = config.ev_config(args.dataset)
+    # Run Stages
+    graphs(runner, config, args)
+    embeddings(runner, config, args)
+    evaluations(runner, config, args)
+    enlarge(runner, config, args)
 
-    # Graph
-    print(f" <<< === GRAPHS === >>> ")
-    runner.load_graphs(ds_config, args.init_norm, args.hide_edges)
-
-    # Embedding
-    print(f" <<< === EMBEDDING === >>> ")
-
-    # Embedding Storing file not specified
-    if not args.embed_file:
-        runner.learn_embedding(em_config, args.embed_dim)
-
-    else:
-        embed_dir = f"{args.output}/{EMBED_DIR}"
-        embed_file_path = f"{args.output}/{EMBED_DIR}/{args.embed_file}"
-        if os.path.exists(f"{embed_file_path}.txt") and not args.force_learn:
-            # File does exist and no force-learn
-            runner.load_embedding(em_config, embed_file_path, args.embed_dim)
-        else:
-            # Learn & Store (default)
-            runner.learn_embedding(em_config, args.embed_dim)
-
-            os.makedirs(embed_dir, exist_ok=True)
-            runner.store_embedding(embed_file_path)
-
-    # Evaluation
-    if args.eval_method:
-        print(f" <<< === EVALUATION === >>>")
-        timestamp = dt.datetime.now().strftime("%d-%H-%M-%S")
-        eval_file = f"{args.embed_method}#{timestamp}"
-        eval_dir = f"{args.output}/{EVAL_DIR}/{args.dataset}/{args.eval_method}"
-
-        os.makedirs(eval_dir, exist_ok=True)
-        runner.evaluate_embedding(ev_config, f"{eval_dir}/{eval_file}")
+    print(f"{ph.OK} Done.")
