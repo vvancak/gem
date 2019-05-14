@@ -1,22 +1,42 @@
+import embeddings.networks.sdne_network as sdn
 import embeddings.embedding_base as eb
 import graphs.node_mapper as mp
+import tensorflow as tf
 import networkx as nx
 import typing as t
 import numpy as np
+import time
 
 
-class SDNE_Base(eb.EmbeddingBase):
+class SDNE(eb.EmbeddingBase):
     def __init__(self,
                  graph: nx.Graph,
                  dimension: int,
+                 seed: int,
                  iterations: int,
-                 batch_size: int) -> None:
+                 learning_rate: float,
+                 alpha: float,
+                 beta: float,
+                 gamma: float,
+                 batch_size: int,
+                 layers: t.List,
+                 dropouts: t.List) -> None:
         super().__init__(graph, dimension)
         self._network = None
         self._batch_size = batch_size
         self._dimension = dimension
         self._iterations = iterations
         self._adj_matrix = nx.to_scipy_sparse_matrix(graph, dtype=float)
+
+        self._network = sdn.SdneNetwork(
+            seed,
+            dimension,
+            layers,
+            dropouts,
+            graph.number_of_nodes(),
+            gamma
+        )
+        self._network.construct(dimension, graph.number_of_nodes(), learning_rate, alpha, beta, tf.train.AdamOptimizer)
 
     # region === OVERRIDES ===
     def _estimate_weights(self, src_v: np.array, tar_v: np.array) -> np.ndarray:
@@ -32,6 +52,26 @@ class SDNE_Base(eb.EmbeddingBase):
     def load_embedding(self, mapper: mp.NodeMapper, input_file: str) -> None:
         super().load_embedding(mapper, input_file)
         self._network.load(input_file)
+
+    def learn(self) -> float:
+        start = time.time()
+
+        # Epochs
+        for i in range(self._iterations):
+            batch_results = []
+
+            # Batches
+            for batch in self._edge_batches():
+                br = self._train_batch(batch)
+                batch_results.append(br)
+
+            # Loss printing
+            self._print_ep_loss(i, batch_results)
+
+        end = time.time()
+
+        self._get_embedding()
+        return end - start
 
     # endregion
 

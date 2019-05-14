@@ -9,8 +9,5 @@ ds/*
 # Output Files
 output/*
 
-# RBM repository
-src/tfrbm/
-
 # Experiments outputs
 src/experiments/*/output/

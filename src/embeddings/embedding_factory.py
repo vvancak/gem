@@ -1,8 +1,7 @@
 import embeddings.methods.laplacian_eigenmaps as le
-import embeddings.methods.sdne_dbn as sddbn
 import embeddings.methods.deep_walk as dw
 import embeddings.methods.node2vec as n2v
-import embeddings.methods.sdne_bd as sdbd
+import embeddings.methods.sdne as sdn
 import embeddings.methods.line as lne
 import embeddings.methods.random as rnd
 import embeddings.embedding_base as eb
@@ -31,11 +30,7 @@ class Embeddings:
 
     @staticmethod
     def SDNE(graph, d, seed, **kwargs):
-        return sdbd.SDNE_BD(graph, d, seed, **kwargs)
-
-    @staticmethod
-    def SDNE_DBN(graph, d, seed, **kwargs):
-        return sddbn.SDNE_DBN(graph, d, seed, **kwargs)
+        return sdn.SDNE(graph, d, seed, **kwargs)
 
     @staticmethod
     def random(graph, d, seed, **kwargs):

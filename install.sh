@@ -19,14 +19,3 @@ echo "[INFO]: Creating output directories..."
 if [ ! -d "${OUT_DIR}" ]; then
     mkdir ${OUT_DIR}
 fi
-
-# === RBM GIT ===
-echo "[INFO]: Getting RBM GIT repository"
-if [ ! -d "src/tfrbm" ]; then
-    cd src
-    git clone https://github.com/meownoid/tensorfow-rbm.git
-
-    # The repository name has a typo so this should work both now and after they fix it
-    # The main purpose is to have a fixed short directory name...
-    ls | grep tensor | xargs -I {} mv {} tfrbm
-fi
