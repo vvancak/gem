@@ -13,3 +13,6 @@ RUN apt-get clean
 # PYTHON DEPENDENCIES
 COPY requirements.txt /
 RUN pip3 install -r /requirements.txt
+
+# CPU TENSORFLOW
+RUN pip3 install tensorflow==1.13.1

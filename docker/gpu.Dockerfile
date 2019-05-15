@@ -18,3 +18,6 @@ ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64
 # PYTHON DEPENDENCIES
 COPY requirements.txt /
 RUN pip3 install -r /requirements.txt
+
+# GPU TENSORFLOW
+RUN pip3 install tensorflow-gpu==1.13.1
