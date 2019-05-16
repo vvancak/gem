@@ -25,7 +25,7 @@ def parse_arguments():
     parser.add_argument("--embed_method", default="deep_walk", type=str, help="Graph Embedding Method (from em_config.json)")
     parser.add_argument("--embed_dim", default=2, type=int, help="Dimension of the created embedding")
 
-    parser.add_argument("--embed_file", default=None, type=str, help="embedding file for learning")
+    parser.add_argument("--embed_file", default=None, type=str, help="embedding file for loading embeddings")
     parser.add_argument("--embed_dir", default="embeddings", type=str, help="embedding directory within the output directory")
 
     # 4. Evaluations
@@ -59,13 +59,13 @@ def embeddings(runner: rs.RunStages, config: cfg.Configuration, args):
         if not os.path.exists(embed_file):
             print(f"{ph.ERROR} {args.embed_file} does not exist within {embed_file_path}")
             exit(1)
-        runner.load_embedding(em_config, embed_file_path, args.embed_dim)
+        runner.load_embedding(em_config, embed_file, args.embed_dim)
 
     else:
         # Or learn
         runner.learn_embedding(em_config, args.embed_dim)
         # And store
-        embed_file = f"{args.embed_method}#{TIMESTAMP}.txt"
+        embed_file = f"{args.embed_method}#{TIMESTAMP}.csv"
         runner.store_embedding(f"{embed_file_path}/{embed_file}")
 
 

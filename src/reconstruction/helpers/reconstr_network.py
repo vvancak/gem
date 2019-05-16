@@ -20,6 +20,7 @@ class ReconstrNetwork:
 
             net = tf.concat((self._x1, self._x2), axis=1)
 
+            # TODO: Parametrize this, suitable for our networks only !!
             net = tf.keras.layers.Dense(embed_dim, activation=tf.nn.softplus)(net)
 
             self._predictions = tf.keras.layers.Dense(1, activation=tf.nn.sigmoid)(net)

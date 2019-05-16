@@ -39,26 +39,24 @@ class EmbeddingBase(ABC):
     def save_embedding(self, mapper: mp.NodeMapper, output_file: str) -> None:
         with open(f"{output_file}", "w+") as outfile:
             for vertex, id in zip(self._embedding, mapper.node_ids_sorted()):
-                outfile.write(f"{id} | ")
+                outfile.write(f"{id}")
                 for yi in vertex:
-                    outfile.write(f"{yi:.3f}\t")
+                    outfile.write(f",{yi:.3f}")
                 outfile.write('\n')
 
     def load_embedding(self, mapper: mp.NodeMapper, input_file: str) -> None:
         # Load embeddings into dictionary {mapped_id:embedding}
         embedding = {}
-        with open(f"{input_file}.txt", "r") as infile:
+        with open(f"{input_file}", "r") as infile:
             for line in infile:
-                tokens = line.split("|")
+                tokens = line.split(",")
 
                 # Mapped id
-                node_id = tokens[0].strip()
+                node_id = tokens[0]
                 node_id = mapper[node_id]
 
                 # Embedding
-                node_emb = tokens[1].strip()
-                embed_vector = np.array(node_emb.split()).astype(float)
-
+                embed_vector = np.array(tokens[1:]).astype(float)
                 embedding[node_id] = embed_vector
 
         # Sort Embeddings by mapped_id and put into np.array
