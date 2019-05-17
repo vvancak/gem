@@ -38,6 +38,13 @@ class EmbeddingBase(ABC):
 
     def save_embedding(self, mapper: mp.NodeMapper, output_file: str) -> None:
         with open(f"{output_file}", "w+") as outfile:
+            # Header
+            outfile.write(f"node_id")
+            for i in range(len(self._embedding[0])):
+                outfile.write(f",emb_{i}")
+            outfile.write("\n")
+
+            # Embeddings
             for vertex, id in zip(self._embedding, mapper.node_ids_sorted()):
                 outfile.write(f"{id}")
                 for yi in vertex:
