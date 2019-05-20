@@ -23,8 +23,10 @@ class SdneNetwork:
 
         graph = tf.Graph()
         graph.seed = seed
-        self._session = tf.Session(graph=graph, config=tf.ConfigProto(inter_op_parallelism_threads=threads,
-                                                                      intra_op_parallelism_threads=threads))
+        config = tf.ConfigProto(inter_op_parallelism_threads=threads,
+                                intra_op_parallelism_threads=threads)
+        config.gpu_options.allow_growth = True
+        self._session = tf.Session(graph=graph, config=config)
 
     # region === PUBLIC ===
     @property

@@ -7,8 +7,10 @@ class LineNetwork:
         # Create an empty graph and a session
         graph = tf.Graph()
         graph.seed = seed
-        self._session = tf.Session(graph=graph, config=tf.ConfigProto(inter_op_parallelism_threads=threads,
-                                                                      intra_op_parallelism_threads=threads))
+        config = tf.ConfigProto(inter_op_parallelism_threads=threads,
+                                intra_op_parallelism_threads=threads)
+        config.gpu_options.allow_growth = True
+        self._session = tf.Session(graph=graph, config=config)
 
     # region === PUBLIC ===
     def construct(self, num_nodes: int, embedding_size: int, order: int, learn_rate: float, neg_sample_size: int = None) -> None:
