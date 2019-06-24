@@ -39,13 +39,13 @@ def parse_arguments():
     return parser.parse_args()
 
 
-def graphs(runner: rs.RunStages, config: cfg.Configuration, args):
+def load_graphs(runner: rs.RunStages, config: cfg.Configuration, args):
     print(f" <<< === GRAPHS === >>> ")
     ds_config = config.ds_config()
     runner.load_graphs(ds_config, args.init_norm, args.hide_edges)
 
 
-def embeddings(runner: rs.RunStages, config: cfg.Configuration, args):
+def get_embeddings(runner: rs.RunStages, config: cfg.Configuration, args):
     print(f" <<< === EMBEDDING === >>> ")
     em_config = config.em_config(args.dataset)
 
@@ -69,7 +69,7 @@ def embeddings(runner: rs.RunStages, config: cfg.Configuration, args):
         runner.store_embedding(f"{embed_file_path}/{embed_file}")
 
 
-def evaluations(runner: rs.RunStages, config: cfg.Configuration, args):
+def run_evaluations(runner: rs.RunStages, config: cfg.Configuration, args):
     print(f" <<< === EVALUATION === >>>")
     if args.eval_method:
         ev_config = config.ev_config(args.dataset)
@@ -83,7 +83,7 @@ def evaluations(runner: rs.RunStages, config: cfg.Configuration, args):
         print(f"{ph.INFO} No method specified, skipping")
 
 
-def enlarge(runner: rs.RunStages, config: cfg.Configuration, args):
+def enlarge_graph(runner: rs.RunStages, config: cfg.Configuration, args):
     print(f" <<< === ENLARGE === >>> ")
     if args.add_edges:
         enlarge_file = f"{args.embed_method}#{TIMESTAMP}.csv"
@@ -103,9 +103,9 @@ if __name__ == "__main__":
     config = cfg.Configuration(args.config)
 
     # Run Stages
-    graphs(runner, config, args)
-    embeddings(runner, config, args)
-    evaluations(runner, config, args)
-    enlarge(runner, config, args)
+    load_graphs(runner, config, args)
+    get_embeddings(runner, config, args)
+    run_evaluations(runner, config, args)
+    enlarge_graph(runner, config, args)
 
     print(f"{ph.OK} Done.")
