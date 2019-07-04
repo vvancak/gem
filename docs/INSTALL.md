@@ -63,6 +63,7 @@ docker build -f cpu.Dockerfile -t gem-docker-cpu .
 ##### 2. Run the project environment
 ```Shell
 docker run --rm -it \
+    --userns host \
     -v $(pwd):/usr/local/gem \
     -u $(id -u):$(id -g) \
     -w /usr/local/gem \
@@ -91,6 +92,7 @@ docker build -f gpu.Dockerfile -t gem-docker-gpu .
 One-GPU Server:
 ```Shell
 nvidia-docker run --rm -it \
+    --userns host \
     -v $(pwd):/usr/local/gem \
     -u $(id -u):$(id -g) \
     -w /usr/local/gem \
@@ -101,6 +103,7 @@ Multiple-GPU Server:
 ```Shell
 GPU=0 # or replace 0 with an available GPU
 NV_GPU=${GPU} nvidia-docker run --rm -it \
+    --userns host \
     -v $(pwd):/usr/local/gem \
     -u $(id -u):$(id -g) \
     -w /usr/local/gem \

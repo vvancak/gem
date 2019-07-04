@@ -25,11 +25,11 @@ def parse_arguments():
     parser.add_argument("--embed_method", default="deep_walk", type=str, help="Graph Embedding Method (from em_config.json)")
     parser.add_argument("--embed_dim", default=2, type=int, help="Dimension of the created embedding")
 
-    parser.add_argument("--embed_file", default=None, type=str, help="embedding file for loading embeddings")
+    parser.add_argument("--embed_file", default=None, type=str, help="embedding file for loading embeddings (None if you want to create them)")
     parser.add_argument("--embed_dir", default="embeddings", type=str, help="embedding directory within the output directory")
 
     # 4. Evaluations
-    parser.add_argument("--eval_method", default=None, type=str, help="Evaluation Method (from ev_config.json)")
+    parser.add_argument("--eval_method", default=None, type=str, help="Evaluation Method (from ev_config.json)(None if not required)")
     parser.add_argument("--eval_dir", default="evaluations", type=str, help="evaluation directory within the output directory")
 
     # 5. Enlarge
