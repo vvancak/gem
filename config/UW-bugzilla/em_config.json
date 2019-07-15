@@ -26,8 +26,8 @@
     "negative_samples": 5
   },
   "SDNE": {
-    "iterations": 50,
-    "learning_rate": 0.001,
+    "iterations": 70,
+    "learning_rate": 0.003,
     "alpha": 1.0,
     "beta": 10.0,
     "gamma": 0.001,

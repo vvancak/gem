@@ -16,7 +16,7 @@ class GraphReconstruction(evb.EvaluationBase):
 
     def _run(self, embedding: emb) -> t.Dict:
         # Mean squared error of observed edges
-        mse_observed = mse.mse_observed(self._graph, embedding, self._max_k)
+        mse_observed = mse.mse_observed_old(self._graph, embedding, self._max_k)
 
         # Mean Average Precision
         mean_avg_prec = meavp.mean_avg_prec(self._graph, embedding, self._max_k)

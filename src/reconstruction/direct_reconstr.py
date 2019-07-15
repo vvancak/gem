@@ -33,7 +33,7 @@ class EdgeReconstruction():
     def get_best_edges(self, src_v: int, batch_size: int) -> np.array:
         batch = []
         for tar_v in self._graph.nodes:
-            if tar_v <= src_v: continue
+            if src_v <= tar_v: continue
 
             batch.append(tar_v)
             if len(batch) == batch_size:
