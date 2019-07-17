@@ -20,7 +20,7 @@ class Visualization(evb.EvaluationBase):
         plt.show()
 
     def _run(self, embedding: emb.EmbeddingBase) -> t.Dict:
-        emb_ndarr = embedding.get
+        emb_ndarr = embedding.get_ndarray
 
         num_nodes, d = np.shape(emb_ndarr)
         if d > 2:
@@ -30,7 +30,7 @@ class Visualization(evb.EvaluationBase):
 
     # endregion
 
-    # region === PRIVATE
+    # region === PRIVATE ===
     def _vis_2d(self, emb_ndarr: np.ndarray, num_nodes: int) -> None:
         labelled_nodes = nx.get_node_attributes(self._graph, 'label')
 

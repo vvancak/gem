@@ -31,6 +31,10 @@ class EmbeddingBase(ABC):
 
         return self._embedding[pos]
 
+    @property
+    def get_ndarray(self) -> np.ndarray:
+        return self._embedding
+
     def estimate_weights(self, src_v: np.array, tar_v: np.array = None) -> np.ndarray:
         if tar_v is None:
             tar_v = src_v
@@ -48,7 +52,7 @@ class EmbeddingBase(ABC):
             for vertex, id in zip(self._embedding, mapper.node_ids_sorted()):
                 outfile.write(f"{id}")
                 for yi in vertex:
-                    outfile.write(f",{yi:.3f}")
+                    outfile.write(f",{yi}")
                 outfile.write('\n')
 
     def load_embedding(self, mapper: mp.NodeMapper, input_file: str) -> None:
